@@ -43,7 +43,12 @@ function table.merge(tab1, tab2)
 end
 
 if arg[1] == nil then
-    errorExit("Missing action")
+    print("Usage: lxc <action> [identifier] [arguments]\n")
+    print("action\t\tthe action you put usually after 'lxc-'")
+    print("identifier\tthe container's name or identifier, needed for some commands like start")
+    print("arguments\toptionnals arguments for the lxc-<action> command")
+    print("\nDon't forget to look for updates : https://github.com/smumu/lxc-wrapper")
+    os.exit(true);
 end
 
 action = arg[1]
