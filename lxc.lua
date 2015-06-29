@@ -1,7 +1,7 @@
 #!/usr/bin/lua
 
 actionsAliases = {
-    list = "ls -f"
+    list = "ls -f -F name,state,pid,memory,ram,swap"
 }
 
 -- true if container name needed
@@ -12,6 +12,9 @@ possiblesActions = {
     execute = true,
     ls = false
 }
+
+-- to put sudo before the command, if you only use privileged containers
+use_sudo = false
 
 function errorExit(message)
     if message ~= nil then
@@ -70,7 +73,13 @@ if possiblesActions[action] == nil then
     errorExit("Unsupported action `" .. action .. "`")
 end
 
-command = "lxc-" .. action
+command = ""
+
+if use_sudo then
+    command = command .. "sudo "
+end
+
+command = command .. "lxc-" .. action
 args = table.merge(args, table.slice(arg, 2))
 
 if possiblesActions[action] == true then
